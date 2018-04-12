@@ -20,5 +20,16 @@ The first pane will be named "Main"
 
 to split pane horizontally the command is:
 ```
-split_pane(Pane1,Pane2,Percantage)\n
+split_pane_h(Pane1,Pane2,Percantage)\n
 ```
+Where panel1 is the name of the first new panel and Panel2 is the name of the second new panel. Percentage is the percentage of the pane used by pane1.
+ the result would look like 
+ 
+ ```
+ -----------------------------
+ |                  |        |
+ |  Pane1           | Pane2  |
+ |                  |        | 
+ | <---Percentage-> |        |
+ -----------------------------
+ ```
