@@ -66,6 +66,22 @@ Where panel1 is the name of the first new panel and Panel2 is the name of the se
  
  to print text run 
  ```
- text(100,"text");
+ text(pane,100,"text");
  ```
- where the first number is the delay between charecters (in milliseconds), and text is the text printed. Inorder to print a new line a \n charecter has to be in "text"
+ where Pane is the pane that the text will go in, the first number is the delay between charecters (in milliseconds), and text is the text printed. Inorder to print a new line a \n charecter has to be in "text"
+ 
+ To delete all text in a pane
+ 
+ ```
+ delete_text(pane);
+ ```
+ 
+ # Example Config File
+ 
+ ```
+ background_color(100,200,100);
+ text_color(1000,1000,1000);
+ split_pane_h(Panel1,Panel2,70);
+ text(Panel1,100,"hi there, it was a triumph");
+ delete_text(pane);
+ ```
