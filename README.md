@@ -20,7 +20,7 @@ The first pane will be named "Main"
 
 to split pane horizontally the command is:
 ```
-split_pane_h(Pane1,Pane2,Percantage)\n
+split_pane_h(Pane1,Pane2,Percantage);
 ```
 Where panel1 is the name of the first new panel and Panel2 is the name of the second new panel. Percentage is the percentage of the pane used by pane1.
  the result would look like 
@@ -52,3 +52,20 @@ Where panel1 is the name of the first new panel and Panel2 is the name of the se
  ----------------------
  ```
  
+ To set the background color run
+ ```
+ background_color(1000,1000,1000);
+ ```
+ where the numbers are Red,Blue,Green scaled from 0 to 1000
+ 
+ To set the text color run
+ ```
+ text_color(1000,1000,1000);
+ ```
+ where the numbers are Red,Blue,Green scaled from 0 to 1000
+ 
+ to print text run 
+ ```
+ text(100,"text");
+ ```
+ where the first number is the delay between charecters, and text is the text printed. Inorder to print a new line a \n charecter has to be in "text"
