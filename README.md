@@ -33,3 +33,22 @@ Where panel1 is the name of the first new panel and Panel2 is the name of the se
  | <---Percentage-> |        |
  -----------------------------
  ```
+to split a pane vertically the command is:
+```
+splate_pane_v(Pane1,Pane2,Percentage);
+```
+Where panel1 is the name of the first new panel and Panel2 is the name of the second new panel. Percentage is the percentage of the pane used by pane1.
+ the result would look like 
+ 
+ ```
+ ---------------------
+ | Panel1       ^     |
+ |         Percentage |
+ |              |     |
+ |              |     |
+ ----------------------
+ | Panel2             |
+ |                    |
+ ----------------------
+ ```
+ 
