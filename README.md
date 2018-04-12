@@ -68,4 +68,4 @@ Where panel1 is the name of the first new panel and Panel2 is the name of the se
  ```
  text(100,"text");
  ```
- where the first number is the delay between charecters, and text is the text printed. Inorder to print a new line a \n charecter has to be in "text"
+ where the first number is the delay between charecters (in milliseconds), and text is the text printed. Inorder to print a new line a \n charecter has to be in "text"
