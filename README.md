@@ -81,7 +81,7 @@ Where panel1 is the name of the first new panel and Panel2 is the name of the se
  ```
  background_color(100,200,100);
  text_color(1000,1000,1000);
- split_pane_h(Panel1,Panel2,70);
+ split_pane_h(main_pane,Panel1,Panel2,70);
  text(Panel1,100,"hi there, it was a triumph");
  delete_text(pane);
  ```
