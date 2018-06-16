@@ -1,2 +1,5 @@
 vgcore*
 *.txt
+__*
+.vscode
+tags.VHotcq
