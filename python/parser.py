@@ -3,7 +3,7 @@ from terminal import *
 
 def open_file():
     file_string=""
-    file=open("text.txt","r",1)
+    file=open("../text.txt","r",1)
     while(0==0):
         temp_string=file.read(10)
         if(temp_string!=""):
