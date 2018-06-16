@@ -3,7 +3,7 @@ This recreates the end credits of Portal 1 and 2 in a terminal.
 
 # Introduction
   This program recreates the end sequence of Portal 1 and 2 inside of a terminal Using ncurses.
-# Instalalation
+# Istalation
   run
   ```
       $ make
@@ -20,7 +20,7 @@ The first pane will be named "Main"
 
 to split pane horizontally the command is:
 ```
-split_pane_h(Pane1,Pane2,Percantage);
+split_pane_h(Pane_Original,Pane1,Pane2,Percantage);
 ```
 Where panel1 is the name of the first new panel and Panel2 is the name of the second new panel. Percentage is the percentage of the pane used by pane1.
  the result would look like 
@@ -35,7 +35,7 @@ Where panel1 is the name of the first new panel and Panel2 is the name of the se
  ```
 to split a pane vertically the command is:
 ```
-splate_pane_v(Pane1,Pane2,Percentage);
+splate_pane_v(Panel_Original,Pane1,Pane2,Percentage);
 ```
 Where panel1 is the name of the first new panel and Panel2 is the name of the second new panel. Percentage is the percentage of the pane used by pane1.
  the result would look like 
@@ -81,7 +81,7 @@ Where panel1 is the name of the first new panel and Panel2 is the name of the se
  ```
  background_color(100,200,100);
  text_color(1000,1000,1000);
- split_pane_h(Panel1,Panel2,70);
+ split_pane_h(main_pane,Panel1,Panel2,70);
  text(Panel1,100,"hi there, it was a triumph");
  delete_text(pane);
  ```
