@@ -2,8 +2,9 @@ background_color(100,200,100);
 #sleep(1000);
 text_color(1000,1000,1000);
 split_pane_h(main_pane,Panel1,Panel2,50);
-split_pane_v(Panel1,top,bottom,70);
+split_pane_h(Panel1,top,bottom,70);
 # this is a comment
 text(bottom,100,"hi there, it was a triumph");
+text(top,60,"this is new text");
 sleep(10000)
 delete_text(pane);

@@ -8,13 +8,22 @@ class window_term{
     int cursor[2];
     int self_index;
     int children_index[2];
-    window_term(int dim[4],int curs[2],int self_in, int children_in[2]);
+    std::string name;
+    
+    window_term(int dim[4],int self_in, std::string name_in);
+    std::vector<window_term> split_h(std::string original, std::string pane1, std::string pane2,
+        int percent, int c1_index, int c2_index);
 };
 
 class window_array{
   public:
     std::vector<window_term> window_vec;
+    //the base frame is at index of 0, children that do not exist lives at index -1
     window_array();
+    int split_h(std::string orig,std::string name1, std::string name2,int percent);
+  private:
+    int INT_split_h(std::string orig, std::string name1, std::string name2,int percent,int index);
+
     
 };
 class Terminal{
