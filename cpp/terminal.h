@@ -9,6 +9,8 @@ class window_term{
     int self_index;
     int children_index[2];
     std::string name;
+    int split_cord;
+    std::string split_type;
     
     window_term(int dim[4],int self_in, std::string name_in);
     std::vector<window_term> split_h(std::string original, std::string pane1, std::string pane2,
@@ -23,6 +25,7 @@ class window_array{
     int split_h(std::string orig,std::string name1, std::string name2,int percent);
   private:
     int INT_split_h(std::string orig, std::string name1, std::string name2,int percent,int index);
+    
 
     
 };
@@ -34,5 +37,7 @@ class Terminal{
         std::string pane1, std::string pane2, int percent);
     private:
         void draw_splits();
+        window_array win_arr;
+        void INT_draw_split(int index);
 };
 #endif

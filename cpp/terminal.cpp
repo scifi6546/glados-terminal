@@ -18,6 +18,8 @@ window_term::window_term(int dim[],int self_in, std::string name_in){
   children_index[1]=-1;
   
   name = name_in;
+  split_cord=-1;
+  split_type="";
 }
 
 std::vector<window_term> window_term::split_h(std::string original, std::string pane1, std::string pane2,
@@ -26,6 +28,8 @@ std::vector<window_term> window_term::split_h(std::string original, std::string 
           if(original.compare(name)==0){
             int split = dimensions[0] + 
               floor((percent/100)*(dimensions[2]-dimensions[0]));
+            split_cord=split;
+            split_type="horizontal";
             int c1_array[4];
 
             c1_array[0] = dimensions[0]+1;
@@ -70,6 +74,7 @@ int window_array::split_h(std::string orig, std::string name1, std::string name2
 
 int window_array::INT_split_h(std::string orig, std::string name1, std::string name2,int percent, int index){
   if(window_vec[index].name.compare(orig)){
+    printf("found pane");
     int len = window_vec.size();
     std::vector<window_term> temp_vec = window_vec[index].split_h(orig,name1,name2,percent,
           len,len+1);
@@ -85,7 +90,8 @@ Terminal::Terminal(){
   clear();
   refresh();
   draw_splits();
-  usleep(1000000);
+ 
+  win_arr = window_array();
 }
 Terminal::~Terminal(){
   endwin();
@@ -101,7 +107,26 @@ void Terminal::draw_splits(){
   }
   refresh();
 }
+
+void Terminal::INT_draw_split(int index){
+  if(win_arr.window_vec[index].split_type.compare("horizontal")){
+    for(int i = win_arr.window_vec[index].dimensions[1]; i<win_arr.window_vec[index].dimensions[3]; i++){
+      mvaddch(i,win_arr.window_vec[index].split_cord,'|');
+      INT_draw_split(win_arr.window_vec[index].children_index[0]);
+      INT_draw_split(win_arr.window_vec[index].children_index[1]);
+    }
+  }
+  if(win_arr.window_vec[index].split_type.compare("vertical")){
+    for(int i = win_arr.window_vec[index].dimensions[0]; i<win_arr.window_vec[index].dimensions[2]; i++){
+      mvaddch(win_arr.window_vec[index].split_cord,i,'-');
+      INT_draw_split(win_arr.window_vec[index].children_index[0]);
+      INT_draw_split(win_arr.window_vec[index].children_index[1]);
+    }
+  }
+  refresh();
+}
 void Terminal::split_h(std::string pane_original,
         std::string pane1, std::string pane2, int percent){
-          
+          win_arr.split_h(pane_original,pane1,pane2,percent);
+          draw_splits();
         }

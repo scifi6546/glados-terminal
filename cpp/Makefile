@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-I -g3 -O0 -lncurses
+CFLAGS=-I -ggdb -lncurses
 main: main.cpp terminal.cpp
 	$(CC) -o out main.cpp terminal.cpp $(CFLAGS)
 run:
