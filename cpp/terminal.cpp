@@ -26,29 +26,97 @@ std::vector<window_term> window_term::split_h(std::string original, std::string 
         int percent,int c1_index,int c2_index){
           std::vector<window_term> out;
           if(original.compare(name)==0){
-            int split = dimensions[0] + 
-              floor((percent/100)*(dimensions[2]-dimensions[0]));
-            split_cord=split;
+            
+            //starting declarations
+
+            float float_dim[4];
+            //copying dimensions to temp_dim
+            for(int i =0;i<=3;i++){
+              float_dim[i]=(float)dimensions[i];
+            }
+            //copying percent
+            float float_percent=(float) percent;
+
+            float float_split=float_dim[0]+
+              (float_percent/100)*(float_dim[2]-float_dim[0]);
+
+            split_cord=floor(float_split);
+
             split_type="horizontal";
             int c1_array[4];
 
-            c1_array[0] = dimensions[0]+1;
-            c1_array[1] = dimensions[1]+1;
-            c1_array[2] = split-1;
-            c1_array[3] = dimensions[3]-1;
+            c1_array[0] = dimensions[0];
+            c1_array[1] = dimensions[1];
+            c1_array[2] = split_cord-1;
+            c1_array[3] = dimensions[3];
 
             window_term c1 = window_term(c1_array,c1_index,pane1);
 
             int c2_array[4];
-            c2_array[0] = split+1;
-            c2_array[1] = dimensions[1]+1;
-            c2_array[2] = dimensions[2]-1;
-            c2_array[3] = dimensions[3]-1;
+            c2_array[0] = split_cord+1;
+            c2_array[1] = dimensions[1];
+            c2_array[2] = dimensions[2];
+            c2_array[3] = dimensions[3];
 
             window_term c2 = window_term(c2_array,c2_index,pane2);
             out.push_back(c1);
             out.push_back(c2);
+
+            children_index[0]=c1_index;
+            children_index[1]=c2_index;
+            
           }
+          // // printf("out name: %s       ",out[0].name.c_str());
+          return out;
+        }
+
+
+
+        std::vector<window_term> window_term::split_v(std::string original, std::string pane1, std::string pane2,
+        int percent,int c1_index,int c2_index){
+          std::vector<window_term> out;
+          if(original.compare(name)==0){
+            
+            //starting declarations
+
+            float float_dim[4];
+            //copying dimensions to temp_dim
+            for(int i =0;i<=3;i++){
+              float_dim[i]=(float)dimensions[i];
+            }
+            //copying percent
+            float float_percent=(float) percent;
+
+            float float_split=float_dim[1]+
+              (float_percent/100)*(float_dim[3]-float_dim[1]);
+
+            split_cord=floor(float_split);
+
+            split_type="vertical";
+            int c1_array[4];
+
+            c1_array[0] = dimensions[0];
+            c1_array[1] = dimensions[1];
+            c1_array[2] = dimensions[2];
+            c1_array[3] = split_cord-1;
+
+            window_term c1 = window_term(c1_array,c1_index,pane1);
+
+            int c2_array[4];
+            c2_array[0] = dimensions[0];
+            c2_array[1] = split_cord+1;
+            c2_array[2] = dimensions[2];
+            c2_array[3] = dimensions[3];
+
+            window_term c2 = window_term(c2_array,c2_index,pane2);
+            out.push_back(c1);
+            out.push_back(c2);
+
+            children_index[0]=c1_index;
+            children_index[1]=c2_index;
+            
+          }
+          // // printf("out name: %s       ",out[0].name.c_str());
           return out;
         }
 
@@ -57,39 +125,79 @@ std::vector<window_term> window_term::split_h(std::string original, std::string 
 
 
 window_array::window_array(){
-  window_vec={};
   int dim[4];
   dim[0] = 0;
   dim[1] = 0;
   dim[2] = COLS-1;
   dim[3] = LINES-1;
-  window_term temp = window_term(dim,0,"main_pane");
-  window_vec.push_back(temp);
+  std::string temp = "main_pane";
+  // printf("main_pane= %s   ",temp.c_str());
+  window_vec={window_term(dim,0,"main_pane")};
 }
 
 int window_array::split_h(std::string orig, std::string name1, std::string name2,int percent){
-  INT_split_h(orig,name1,name2,percent,0);
-  return 0;
+  return INT_split_h(orig,name1,name2,percent,0);
+}
+
+int window_array::split_v(std::string orig, std::string name1, std::string name2,int percent){
+  return INT_split_v(orig,name1,name2,percent,0);
 }
 
 int window_array::INT_split_h(std::string orig, std::string name1, std::string name2,int percent, int index){
-  if(window_vec[index].name.compare(orig)){
-    printf("found pane");
+  // printf("running pane program   ");
+  if(window_vec[index].name.compare(orig)==0){
+    // printf("found pane    ");
     int len = window_vec.size();
+    
     std::vector<window_term> temp_vec = window_vec[index].split_h(orig,name1,name2,percent,
           len,len+1);
+      // printf("temp_vec name0: %s      ",temp_vec[0].name.c_str());
+    window_vec.push_back(temp_vec[0]);
+    window_vec.push_back(temp_vec[1]);
+
   } else if(window_vec[index].children_index[0]>0){
+    // printf("did not find pane   \n");
     INT_split_h(orig,name1,name2,percent,window_vec[index].children_index[0]);
     INT_split_h(orig,name1,name2,percent,window_vec[index].children_index[1]);
+  } else{
+    // printf("did not find pane: %s   ",orig.c_str());
   }
   return 0;
 }
+
+
+int window_array::INT_split_v(std::string orig, std::string name1, std::string name2,int percent, int index){
+  // printf("running pane program   ");
+  if(window_vec[index].name.compare(orig)==0){
+    // printf("found pane    ");
+    int len = window_vec.size();
+    
+    std::vector<window_term> temp_vec = window_vec[index].split_v(orig,name1,name2,percent,
+          len,len+1);
+      // printf("temp_vec name0: %s      ",temp_vec[0].name.c_str());
+    window_vec.push_back(temp_vec[0]);
+    window_vec.push_back(temp_vec[1]);
+
+  } else if(window_vec[index].children_index[0]>0){
+    // printf("did not find pane   \n");
+    INT_split_v(orig,name1,name2,percent,window_vec[index].children_index[0]);
+    INT_split_v(orig,name1,name2,percent,window_vec[index].children_index[1]);
+  } else{
+    // printf("did not find pane: %s   ",orig.c_str());
+  }
+  return 0;
+}
+
+
+
+
+
 
 Terminal::Terminal(){
   initscr();
   clear();
   refresh();
-  draw_splits();
+ // draw_splits();
  
   win_arr = window_array();
 }
@@ -105,23 +213,27 @@ void Terminal::draw_splits(){
     mvaddch(i,0,'|');
     mvaddch(i,COLS-1,'|');
   }
+  INT_draw_split(0);
   refresh();
 }
 
 void Terminal::INT_draw_split(int index){
-  if(win_arr.window_vec[index].split_type.compare("horizontal")){
-    for(int i = win_arr.window_vec[index].dimensions[1]; i<win_arr.window_vec[index].dimensions[3]; i++){
+  if(win_arr.window_vec[index].split_type.compare("horizontal")==0){
+    // printf("drew split at index %i   ",index);
+    // printf("children indeces= %i  %i    ",win_arr.window_vec[index].children_index[0],win_arr.window_vec[index].children_index[1]);
+    for(int i = win_arr.window_vec[index].dimensions[1]+1; i<win_arr.window_vec[index].dimensions[3]; i++){
       mvaddch(i,win_arr.window_vec[index].split_cord,'|');
-      INT_draw_split(win_arr.window_vec[index].children_index[0]);
-      INT_draw_split(win_arr.window_vec[index].children_index[1]);
     }
+     INT_draw_split(win_arr.window_vec[index].children_index[0]);
+      INT_draw_split(win_arr.window_vec[index].children_index[1]);
   }
-  if(win_arr.window_vec[index].split_type.compare("vertical")){
+  if(win_arr.window_vec[index].split_type.compare("vertical")==0){
     for(int i = win_arr.window_vec[index].dimensions[0]; i<win_arr.window_vec[index].dimensions[2]; i++){
       mvaddch(win_arr.window_vec[index].split_cord,i,'-');
-      INT_draw_split(win_arr.window_vec[index].children_index[0]);
-      INT_draw_split(win_arr.window_vec[index].children_index[1]);
+      
     }
+    INT_draw_split(win_arr.window_vec[index].children_index[0]);
+      INT_draw_split(win_arr.window_vec[index].children_index[1]);
   }
   refresh();
 }
@@ -130,3 +242,35 @@ void Terminal::split_h(std::string pane_original,
           win_arr.split_h(pane_original,pane1,pane2,percent);
           draw_splits();
         }
+void Terminal::split_v(std::string pane_original,
+        std::string pane1, std::string pane2, int percent){
+          win_arr.split_v(pane_original,pane1,pane2,percent);
+          draw_splits();
+        }
+void Terminal::print(std::string pane, float delay,std::string input){
+  int int_delay=floor(delay*pow(10,6));
+  INT_print(pane,int_delay,input,0);
+}
+void Terminal::INT_print(std::string pane,int delay,std::string input,int index){
+  if(win_arr.window_vec[index].name.compare(pane)==0 && 
+        win_arr.window_vec[index].children_index[0]==-1){
+    int x_y[2] = {win_arr.window_vec[index].dimensions[0],
+          win_arr.window_vec[index].dimensions[1]};
+    
+    for(int i =0;i<input.length();i++){
+      if(input[i]=='\n'){
+        x_y[0]=win_arr.window_vec[index].dimensions[0];
+        x_y[1]=x_y[1]+1;
+      }else{
+        x_y[0]++;
+        mvaddch(x_y[1],x_y[0],input[i]);
+        refresh();
+        sleep(delay);
+      }
+    }
+  }else if(win_arr.window_vec[index].children_index[0]!=-1){
+    INT_print(pane,delay,input,win_arr.window_vec[index].children_index[0]);
+    INT_print(pane,delay,input,win_arr.window_vec[index].children_index[1]);
+
+  }
+}

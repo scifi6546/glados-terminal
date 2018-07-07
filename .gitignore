@@ -3,3 +3,6 @@ vgcore*
 __*
 .vscode
 tags.VHotcq
+.gdb_history
+a.out
+*.o

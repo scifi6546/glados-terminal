@@ -13,6 +13,8 @@ class window_term{
     std::string split_type;
     
     window_term(int dim[4],int self_in, std::string name_in);
+    std::vector<window_term> split_v(std::string original, std::string pane1, std::string pane2,
+        int percent,int c1_index,int c2_index);
     std::vector<window_term> split_h(std::string original, std::string pane1, std::string pane2,
         int percent, int c1_index, int c2_index);
 };
@@ -23,8 +25,10 @@ class window_array{
     //the base frame is at index of 0, children that do not exist lives at index -1
     window_array();
     int split_h(std::string orig,std::string name1, std::string name2,int percent);
+    int split_v(std::string orig,std::string name1, std::string name2,int percent);
   private:
     int INT_split_h(std::string orig, std::string name1, std::string name2,int percent,int index);
+    int INT_split_v(std::string orig, std::string name1, std::string name2,int percent,int index);
     
 
     
@@ -35,9 +39,13 @@ class Terminal{
         ~Terminal();
         void split_h(std::string pane_original,
         std::string pane1, std::string pane2, int percent);
+        void split_v(std::string pane_original,
+        std::string pane1, std::string pane2, int percent);
+        void print(std::string pane,float delay,std::string input);//delay in seconds
     private:
         void draw_splits();
         window_array win_arr;
         void INT_draw_split(int index);
+        void INT_print(std::string pane,int delay,std::string input,int index);
 };
 #endif
