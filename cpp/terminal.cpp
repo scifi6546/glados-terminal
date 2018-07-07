@@ -252,10 +252,11 @@ void Terminal::print(std::string pane, float delay,std::string input){
   INT_print(pane,int_delay,input,0);
 }
 void Terminal::INT_print(std::string pane,int delay,std::string input,int index){
-  if(win_arr.window_vec[index].name.compare(pane)==0 && 
-        win_arr.window_vec[index].children_index[0]==-1){
-    int x_y[2] = {win_arr.window_vec[index].dimensions[0],
-          win_arr.window_vec[index].dimensions[1]};
+  int cond = win_arr.window_vec[index].name.compare(pane) && 
+      win_arr.window_vec[index].children_index[0]==-1;
+  if(win_arr.window_vec[index].name.compare(pane)==0){
+    int x_y[2] = {win_arr.window_vec[index].dimensions[0]+1,
+          win_arr.window_vec[index].dimensions[1]+1};
     
     for(int i =0;i<input.length();i++){
       if(input[i]=='\n'){
@@ -265,7 +266,7 @@ void Terminal::INT_print(std::string pane,int delay,std::string input,int index)
         x_y[0]++;
         mvaddch(x_y[1],x_y[0],input[i]);
         refresh();
-        sleep(delay);
+        usleep(delay);
       }
     }
   }else if(win_arr.window_vec[index].children_index[0]!=-1){

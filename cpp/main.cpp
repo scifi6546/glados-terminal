@@ -10,6 +10,7 @@ int main(){
   term.split_v("bottom","tasf","asdfe",50);
   usleep(1000000);
   term.print("t1",.2,"hello world");
+  term.print("asdfe",.2,"hello worldasdf\nqrew");
   //add_char('s',1);
   
   return(0);
