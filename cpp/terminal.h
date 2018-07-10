@@ -41,11 +41,16 @@ class Terminal{
         std::string pane1, std::string pane2, int percent);
         void split_v(std::string pane_original,
         std::string pane1, std::string pane2, int percent);
-        void print(std::string pane,float delay,std::string input);//delay in seconds
+        void text(std::string pane,float delay,std::string input);//delay in seconds
+        void delete_text(std::string pane);
+        void background_color(int red,int green,int blue);
+        void foreground_color(int red, int green,int blue);
     private:
         void draw_splits();
         window_array win_arr;
         void INT_draw_split(int index);
-        void INT_print(std::string pane,int delay,std::string input,int index);
+        void INT_text(std::string pane,int delay,std::string input,int index);
+        void INT_delete_text(std::string pane,int index);
+        void refresh_screen();
 };
 #endif

@@ -47,13 +47,13 @@ std::vector<window_term> window_term::split_h(std::string original, std::string 
 
             c1_array[0] = dimensions[0];
             c1_array[1] = dimensions[1];
-            c1_array[2] = split_cord-1;
+            c1_array[2] = split_cord;
             c1_array[3] = dimensions[3];
 
             window_term c1 = window_term(c1_array,c1_index,pane1);
 
             int c2_array[4];
-            c2_array[0] = split_cord+1;
+            c2_array[0] = split_cord;
             c2_array[1] = dimensions[1];
             c2_array[2] = dimensions[2];
             c2_array[3] = dimensions[3];
@@ -98,13 +98,13 @@ std::vector<window_term> window_term::split_h(std::string original, std::string 
             c1_array[0] = dimensions[0];
             c1_array[1] = dimensions[1];
             c1_array[2] = dimensions[2];
-            c1_array[3] = split_cord-1;
+            c1_array[3] = split_cord;
 
             window_term c1 = window_term(c1_array,c1_index,pane1);
 
             int c2_array[4];
             c2_array[0] = dimensions[0];
-            c2_array[1] = split_cord+1;
+            c2_array[1] = split_cord;
             c2_array[2] = dimensions[2];
             c2_array[3] = dimensions[3];
 
@@ -247,11 +247,11 @@ void Terminal::split_v(std::string pane_original,
           win_arr.split_v(pane_original,pane1,pane2,percent);
           draw_splits();
         }
-void Terminal::print(std::string pane, float delay,std::string input){
+void Terminal::text(std::string pane, float delay,std::string input){
   int int_delay=floor(delay*pow(10,6));
-  INT_print(pane,int_delay,input,0);
+  INT_text(pane,int_delay,input,0);
 }
-void Terminal::INT_print(std::string pane,int delay,std::string input,int index){
+void Terminal::INT_text(std::string pane,int delay,std::string input,int index){
   int cond = win_arr.window_vec[index].name.compare(pane) && 
       win_arr.window_vec[index].children_index[0]==-1;
   if(win_arr.window_vec[index].name.compare(pane)==0){
@@ -270,8 +270,56 @@ void Terminal::INT_print(std::string pane,int delay,std::string input,int index)
       }
     }
   }else if(win_arr.window_vec[index].children_index[0]!=-1){
-    INT_print(pane,delay,input,win_arr.window_vec[index].children_index[0]);
-    INT_print(pane,delay,input,win_arr.window_vec[index].children_index[1]);
+    INT_text(pane,delay,input,win_arr.window_vec[index].children_index[0]);
+    INT_text(pane,delay,input,win_arr.window_vec[index].children_index[1]);
 
   }
+}
+void Terminal::delete_text(std::string pane){
+  INT_delete_text(pane,0);
+}
+void Terminal::INT_delete_text(std::string pane, int index){
+  if(win_arr.window_vec[index].name.compare(pane)==0 &&
+        win_arr.window_vec[index].children_index[0]==-1){
+          int x_y[4];
+          x_y[0]=win_arr.window_vec[index].dimensions[0]+1;
+          x_y[1]=win_arr.window_vec[index].dimensions[1]+1;
+          x_y[2]=win_arr.window_vec[index].dimensions[2]-1;
+          x_y[3]=win_arr.window_vec[index].dimensions[3]-1;
+          for(int i =x_y[0];i<=x_y[2];i++){
+            for(int j=x_y[1]; j<=x_y[3];j++){
+              mvaddch(j,i,' ');
+              refresh();
+            }
+          }
+        }else if( win_arr.window_vec[index].children_index[0]!=-1){
+          INT_delete_text(pane,win_arr.window_vec[index].children_index[0]);
+          INT_delete_text(pane,win_arr.window_vec[index].children_index[1]);
+
+        }
+}
+void Terminal::background_color(int red,int blue,int green){
+  start_color();
+  init_color(COLOR_BLACK,red,green,blue);
+  init_pair(1,COLOR_WHITE,COLOR_BLACK);
+  attron(COLOR_PAIR(1));
+  Terminal::refresh_screen();
+  
+}
+void Terminal::foreground_color(int red, int green,int blue){
+  start_color();
+  init_color(COLOR_WHITE,red,green,blue);
+  init_pair(1,COLOR_WHITE,COLOR_BLACK);
+  attron(COLOR_PAIR(1));
+  Terminal::refresh_screen();
+}
+
+void Terminal::refresh_screen(){
+  for(int i=0;i<COLS;i++){
+    for(int j=0;j<LINES;j++){
+      mvaddch(j,i,' ');
+    }
+  }
+  refresh();
+  draw_splits();
 }
