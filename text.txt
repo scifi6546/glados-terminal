@@ -8,3 +8,4 @@ text(bottom,100,"hi there, it was a triumph");
 text(top,60,"this is new text");
 sleep(10000)
 delete_text(pane);
+sleep(10);

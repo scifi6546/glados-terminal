@@ -1,9 +1,14 @@
 #include "terminal.h"
+#include "interperter.h"
 #include <unistd.h>
 int main(){
 
   //start_int();
-
+  Interperter interperter = Interperter();
+  
+  printf(interperter.printTokens().c_str());
+  usleep(1000000);
+  /*
   Terminal term = Terminal();
    term.background_color(0,0,0);
   term.foreground_color(392,336,0);
@@ -16,10 +21,10 @@ int main(){
  
   term.delete_text("t1");
   usleep(1000000);
- 
+ */
   
-   usleep(1000000);
+  
   //add_char('s',1);
   
-  return(0);
+  return 0;
 }

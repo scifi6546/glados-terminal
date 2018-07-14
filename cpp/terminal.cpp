@@ -3,6 +3,7 @@
 #include <vector>
 #include <unistd.h>
 #include <cmath>
+
 window_term::window_term(int dim[],int self_in, std::string name_in){
   dimensions[0] = dim[0];
   dimensions[1] = dim[1];

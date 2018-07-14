@@ -2,6 +2,8 @@
 #include <string>
 #ifndef TERMINAL_H
 #define TERMINAL_H
+bool isvalidchar(char in);//this checks if char is allowed as name
+
 class window_term{
   public:
     int dimensions[4];
