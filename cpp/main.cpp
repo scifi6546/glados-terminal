@@ -1,13 +1,13 @@
-#include "terminal.h"
-#include "interperter.h"
-#include <unistd.h>
+
+#include "runner.h"
+
 int main(){
 
   //start_int();
-  Interperter interperter = Interperter();
+  Runner runner = Runner();
   
-  printf(interperter.printTokens().c_str());
-  usleep(1000000);
+  //printf(interperter.printTokens().c_str());
+  //usleep(1000000);
   /*
   Terminal term = Terminal();
    term.background_color(0,0,0);

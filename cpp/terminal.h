@@ -3,7 +3,7 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 bool isvalidchar(char in);//this checks if char is allowed as name
-
+bool ispartofname(char in);
 class window_term{
   public:
     int dimensions[4];

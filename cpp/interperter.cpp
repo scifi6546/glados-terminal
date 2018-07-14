@@ -7,9 +7,23 @@ bool isvalidchar(char in){
             //intin);
     if(intin>=0x41 && intin<=0x5a)
         return true;
-    if(intin>=0x61)
-        if(intin<=0x7a)
-            return true;
+    if(intin>=0x61 && intin<=0x7a)
+        return true;
+    if(intin==0x5f)
+        return true;
+    return false;
+        
+}
+bool ispartofname(char in){
+    int intin = in;
+    //printf("char in: %c, int intin : %i\n",in,
+            //intin);
+    if(intin>=0x41 && intin<=0x5a)
+        return true;
+    if(intin>=0x61 && intin<=0x7a)
+        return true;
+    if(intin>=0x30 && intin<=0x39)
+        return true;
     if(intin==0x5f)
         return true;
     return false;
@@ -67,7 +81,7 @@ void Interperter::handleName(){
         contents+=temp;
         while(0==0){
             temp=fbuffer.getc();
-            if(isvalidchar(temp)){
+            if(ispartofname(temp)){
                 contents+=temp;
             }else{
                 break;
@@ -121,7 +135,7 @@ void Interperter::handleQuote(){
                 contents+=temp;
             }
         }
-        Token tempToken=Token("number",contents);
+        Token tempToken=Token("quote",contents);
         tokens.push_back(tempToken);
     }
 }
@@ -131,6 +145,9 @@ std::string Interperter::printTokens(){
         temp+=tokens[i].printToken() + '\n';
     }
     return temp;
+}
+std::vector<Token> Interperter::getTokens(){
+    return tokens;
 }
 
 FileBuffer::FileBuffer(){

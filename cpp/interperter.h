@@ -27,6 +27,7 @@ class Interperter{
         Interperter();
         void interpert();
         std::string printTokens();
+        std::vector<Token> getTokens();
         
     private:
         FileBuffer fbuffer;
