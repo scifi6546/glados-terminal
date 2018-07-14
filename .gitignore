@@ -7,3 +7,4 @@ tags.VHotcq
 a.out
 *.o
 out
+cpp/out
